@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="es">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1, viewport-fit=cover"
+    />
+    <title>Velvet | Labiales de Color Intenso</title>
+    <meta
+      name="description"
+      content="Labiales de color intenso y acabado aterciopelado. Tu tono, tu sello."
+    />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&family=Manrope:wght@400;500;700&family=Galada&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <link rel="stylesheet" href="css/styles.css" />
+  </head>
+  <body>
+    <div id="sparks"></div>
+    <canvas id="stage"></canvas>
+
+    <header class="header">
+      <div class="logo">
+        <svg width="30" height="30" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M12 21s-8-5.2-8-11a4.5 4.5 0 0 1 8-2.8A4.5 4.5 0 0 1 20 10c0 5.800-8 11-8 11z"
+            stroke="currentColor"
+            stroke-width="2"
+            stroke-linejoin="round"
+          />
+        </svg>
+        <span>Velvet</span>
+      </div>
+      <nav class="nav">
+        <a href="#inicio" data-v="inicio" class="active">Inicio</a
+        ><a href="#tonos" data-v="tonos">Tonos</a
+        ><a href="#ingredientes" data-v="ingredientes">Ingredientes</a
+        ><a href="#resenas" data-v="resenas">Reseñas</a
+        ><a href="#tienda" data-v="tienda" id="navTienda">Tienda</a>
+      </nav>
+      <button class="contact-btn" id="contactBtn">Contáctanos</button>
+    </header>
+
+    <main class="hero">
+      <div class="hero-left">
+        <h1><span class="outline">Labios</span><br />Radiantes</h1>
+        <p class="description">
+          Color intenso que dura todo el día.<br />Textura aterciopelada,
+          hidratación real<br />y un acabado que enamora.
+        </p>
+        <div>
+          <button class="primary-btn" id="shopBtn">
+            Comprar ahora <span class="plus">+</span>
+          </button>
+        </div>
+        <div class="award">
+          <div class="award-icon">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
+              <path
+                d="M12 15l3 3 4-4"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+              <path
+                d="M7 10l5 5 5-5"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              />
+            </svg>
+          </div>
+          <div class="award-text">
+            <span>PREMIOS DE DISEÑO</span><span>BELLEZA PREMIUM 2026</span>
+          </div>
+        </div>
+      </div>
+      <div class="hero-right">
+        <div class="carousel">
+          <div class="cards">
+            <div class="card active" data-flavor="classic">
+              <div class="mini shade-classic">
+                <i class="b"></i><i class="s"></i><i class="k"></i>
+              </div>
+              <div class="card-info">
+                <span>Rojo Pasión</span><span>$29.900</span>
+              </div>
+            </div>
+            <div class="card" data-flavor="vino">
+              <div class="mini shade-vino">
+                <i class="b"></i><i class="s"></i><i class="k"></i>
+              </div>
+              <div class="card-info">
+                <span>Vino Intenso</span><span>$29.900</span>
+              </div>
+            </div>
+          </div>
+          <div class="arrows">
+            <button id="prev">←</button><button id="next">→</button>
+          </div>
+        </div>
+        <h2><span class="outline">Color que</span><br />Enamora</h2>
+      </div>
+    </main>
+
+    <section class="panel" id="p-tonos">
+      <div class="pin">
+        <h3>Elige tu tono</h3>
+        <p class="sub">Toca un tono y míralo en el labial 3D.</p>
+        <div class="grid" id="gTonos"></div>
+      </div>
+    </section>
+    <section class="panel" id="p-ingredientes">
+      <div class="pin">
+        <h3>Ingredientes</h3>
+        <p class="sub">Fórmula que cuida mientras pinta.</p>
+        <div class="grid" id="gIng"></div>
+      </div>
+    </section>
+    <section class="panel" id="p-resenas">
+      <div class="pin">
+        <h3>Reseñas</h3>
+        <p class="sub">4.9 de 5 · lo que dicen nuestras clientas.</p>
+        <div class="grid" id="gRes"></div>
+      </div>
+    </section>
+    <section class="panel" id="p-tienda">
+      <div class="pin">
+        <h3>Tienda</h3>
+        <p class="sub">Agrega tus tonos favoritos al carrito.</p>
+        <div class="grid" id="gTienda"></div>
+        <div class="cartbar">
+          <span id="cartTxt">Carrito vacío</span
+          ><button id="buy">Finalizar compra</button>
+        </div>
+      </div>
+    </section>
+    <section class="panel" id="p-contacto">
+      <div class="pin">
+        <h3>Contáctanos</h3>
+        <p class="sub">Cuéntanos qué necesitas y te respondemos pronto.</p>
+        <div class="fld">
+          <input placeholder="Tu nombre" /><input
+            placeholder="Tu correo"
+          /><textarea rows="4" placeholder="Mensaje"></textarea
+          ><button id="send">Enviar</button>
+        </div>
+      </div>
+    </section>
+    <div id="toast"></div>
+
+    <script src="js/main.js"></script>
+  </body>
+</html>
