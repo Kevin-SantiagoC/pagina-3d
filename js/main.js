@@ -114,7 +114,8 @@ const D = F.map(([fx, fy, z, r]) => {
   return m;
 });
 
-let vw = 1,
+let yOff = -0.1,
+  vw = 1,
   vh = 1;
 function resize() {
   const w = innerWidth,
@@ -124,7 +125,16 @@ function resize() {
   cam.updateProjectionMatrix();
   vh = 2 * Math.tan(THREE.MathUtils.degToRad(15)) * 14;
   vw = vh * cam.aspect;
-  L.scale.setScalar(1.12 * Math.min(1, cam.aspect * 1.3));
+  // Ajusta tamaño y posición del labial según la pantalla (celular vertical, horizontal, tablet, escritorio)
+  const portrait = cam.aspect < 0.9;
+  const short = h < 520 && w > h;
+  const base = 1.12 * Math.min(1, cam.aspect * 1.1);
+  // En vertical el labial no debe invadir el titular ni las tarjetas
+  L.scale.setScalar(
+    (portrait ? Math.min(base, h < 700 ? 0.5 : 0.62) : base) *
+      (short ? 0.8 : 1),
+  );
+  yOff = portrait ? -0.45 : -0.1;
 }
 addEventListener("resize", resize);
 resize();
@@ -133,10 +143,13 @@ let m = { x: 0, y: 0, px: 0, py: 0 },
   cm = { x: 0, y: 0 },
   spin = 0,
   busy = false;
-addEventListener("pointermove", (e) => {
-  m.x = e.clientX / innerWidth - 0.5;
-  m.y = e.clientY / innerHeight - 0.5;
-});
+// Mouse y también toques en pantalla táctil
+["pointermove", "pointerdown"].forEach((ev) =>
+  addEventListener(ev, (e) => {
+    m.x = e.clientX / innerWidth - 0.5;
+    m.y = e.clientY / innerHeight - 0.5;
+  }),
+);
 
 const cards = [...document.querySelectorAll(".card")];
 cards.forEach((c) =>
@@ -230,7 +243,7 @@ function frame(ms) {
   cm.y += (m.y - cm.y) * 0.05;
   L.rotation.y = cm.x * 0.9 + THREE.MathUtils.degToRad(spin);
   L.rotation.x = cm.y * 0.35;
-  L.position.y = Math.sin(t * 1.05) * 0.22 - 0.1;
+  L.position.y = Math.sin(t * 1.05) * 0.22 + yOff;
   const px = m.x * vw,
     py = -m.y * vh;
   D.forEach((d, i) => {
@@ -283,6 +296,9 @@ function show() {
   document
     .querySelectorAll(".nav a")
     .forEach((a) => a.classList.toggle("active", a.dataset.v === v));
+  // En celular el menú se desliza: mantener visible la pestaña activa
+  const act = document.querySelector(".nav a.active");
+  if (act) act.scrollIntoView({ inline: "center", block: "nearest" });
 }
 const go = (v) => {
   location.hash = v;
